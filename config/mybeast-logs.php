@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * MyBeast logs: this app's log lines, sent to logs.my-beast.com. Put `mybeast` in the log stack
+ * MyBeast logs: this app's log lines, sent to services.my-beast.com/logs. Put `mybeast` in the log stack
  * (LOG_STACK=single,mybeast) - the SDK adds the channel itself unless config/logging.php names one already. The URL
  * and the server secret come from the project's page there (Overview → Connect a host; Settings → Server secrets).
  *
@@ -15,7 +15,7 @@ return [
     // false switches everything off (a host's own test suite, a checkout without the service).
     'enabled' => (bool) env('MYBEAST_LOGS_ENABLED', true),
 
-    // The service, e.g. https://logs.my-beast.com (no trailing slash needed).
+    // The service, e.g. https://services.my-beast.com/logs (no trailing slash needed).
     'url' => env('MYBEAST_LOGS_URL'),
 
     // sk_….…: this server's secret for sending its lines.

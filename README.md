@@ -1,6 +1,6 @@
 # mybeast/logs-laravel
 
-The Laravel SDK for [MyBeast logs](https://logs.my-beast.com): a log channel that sends your app's lines to the
+The Laravel SDK for [MyBeast logs](https://services.my-beast.com/logs): a log channel that sends your app's lines to the
 service - scrubbed before they leave, without slowing a request, and without losing any while the service is away.
 PHP ≥ 8.2, Laravel 11-13.
 
@@ -12,7 +12,7 @@ composer require mybeast/logs-laravel
 
 ```dotenv
 LOG_STACK=single,mybeast
-MYBEAST_LOGS_URL=https://logs.my-beast.com
+MYBEAST_LOGS_URL=https://services.my-beast.com/logs
 MYBEAST_LOGS_SECRET=sk_….…          # the project's Settings → Server secrets (shown once)
 MYBEAST_LOGS_ENVIRONMENT=production # defaults to APP_ENV
 ```
@@ -81,4 +81,5 @@ vendor/bin/phpunit
 vendor/bin/pint
 ```
 
-`schemas/` is a copy of the service's contract (`../service/schemas`): a test fails when they differ.
+`schemas/` is a copy of the Logs module's contract in services (`../../services/schemas/logs`): a test fails when they
+differ.

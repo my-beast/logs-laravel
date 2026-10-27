@@ -12,7 +12,7 @@ final class ShipCommand extends Command
 {
     protected $signature = 'mybeast:logs-ship';
 
-    protected $description = 'Send the log lines that wait in the spool to logs.my-beast.com';
+    protected $description = 'Send the log lines that wait in the spool to services.my-beast.com/logs';
 
     public function handle(Logs $logs): int
     {

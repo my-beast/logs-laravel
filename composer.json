@@ -1,6 +1,6 @@
 {
     "name": "mybeast/logs-laravel",
-    "description": "Laravel SDK for logs.my-beast.com: a log channel that sends your app's lines, scrubbed, without slowing a request or losing a line.",
+    "description": "Laravel SDK for services.my-beast.com/logs: a log channel that sends your app's lines, scrubbed, without slowing a request or losing a line.",
     "type": "library",
     "license": "proprietary",
     "require": {
