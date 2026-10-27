@@ -1,0 +1,32 @@
+{
+    "lines": [
+        {
+            "id": "01JBFX3W2M4R8Y6T0Q9N7K5H3D",
+            "at": "2026-10-27T12:34:56.123456+00:00",
+            "level": "info",
+            "message": "Invoice 1042 sent to [email]",
+            "context": { "invoice": 1042, "account": "acct_7f3a" },
+            "extra": null,
+            "channel": "app",
+            "environment": "production",
+            "release": "9c1e4b2",
+            "host": "web-1",
+            "request_id": "01JBFX3W2KQ7S3VZ0H5M9N2P4R",
+            "transaction": "POST /invoices/{invoice}/send"
+        },
+        {
+            "id": "01JBFX3W2N5S9Z7V1R0P8M6J4E",
+            "at": "2026-10-27T12:34:56.234567+00:00",
+            "level": "error",
+            "message": "The bank answered 503",
+            "context": { "exception": { "class": "App\\Banking\\BankUnavailable", "message": "The bank answered 503", "code": 0, "file": "app/Banking/Client.php:88" } },
+            "extra": null,
+            "channel": "payments",
+            "environment": "production",
+            "release": "9c1e4b2",
+            "host": "web-1",
+            "request_id": "01JBFX3W2KQ7S3VZ0H5M9N2P4R",
+            "transaction": "POST /invoices/{invoice}/send"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+# The demo host (workbench/): a tiny Laravel app with this SDK, for trying it against a running service.
+#   cp workbench/.env.example workbench/.env    # then put the project's server secret in it
+#   composer demo                                # requests through the app, timed; their lines go to the service
+#   vendor/bin/testbench mybeast:logs-status     # what waits in the demo's spool
+laravel: '@testbench'
+
+providers:
+  - MyBeast\Logs\Laravel\LogsServiceProvider
+  - Workbench\App\Providers\WorkbenchServiceProvider
+
+workbench:
+  start: '/demo/checkout'
+  install: false
+  discovers:
+    web: true

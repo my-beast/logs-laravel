@@ -1,0 +1,43 @@
+{
+    "name": "mybeast/logs-laravel",
+    "description": "Laravel SDK for logs.my-beast.com: a log channel that sends your app's lines, scrubbed, without slowing a request or losing a line.",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.2",
+        "illuminate/console": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/http": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/log": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0",
+        "monolog/monolog": "^3.0",
+        "symfony/uid": "^7.0 || ^8.0"
+    },
+    "require-dev": {
+        "justinrainbow/json-schema": "^6.0",
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.0 || ^12.0"
+    },
+    "autoload": {
+        "psr-4": { "MyBeast\\Logs\\Laravel\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MyBeast\\Logs\\Laravel\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": ["MyBeast\\Logs\\Laravel\\LogsServiceProvider"],
+            "aliases": {}
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "demo": "@php vendor/bin/testbench mybeast:logs-demo"
+    },
+    "config": { "sort-packages": true },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
