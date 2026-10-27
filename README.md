@@ -36,6 +36,8 @@ A channel of its own name: `'payments' => ['driver' => 'mybeast', 'name' => 'pay
 3. **While the service is away** the lines wait, in order, and go when it is back - none lost, none twice (each line
    carries an id the service stores once). The spool may grow to `spool_max_mb` (100 MB); past that new lines are not
    kept until there is room, and a line then says from when to when. `mybeast:logs-status` shows what waits.
+4. **Past the project's monthly limit** (its package's) the service refuses the rest of the month's lines as
+   `monthly-limit`. They are dropped, and the log says so once a month, and once when the service takes lines again.
 
 ## What is taken out
 

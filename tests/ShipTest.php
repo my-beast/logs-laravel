@@ -186,6 +186,39 @@ final class ShipTest extends TestCase
         Log::shouldHaveReceived('warning')->with('MyBeast logs: the service refused a line', ['id' => 'x', 'reason' => 'at: older than the 14 days this environment keeps lines'])->once();
     }
 
+    public function test_past_the_months_limit_lines_are_dropped_and_said_once_a_month(): void
+    {
+        $answers = [
+            ['accepted' => 0, 'duplicates' => 0, 'refused' => [['id' => 'a', 'reason' => 'monthly-limit'], ['id' => 'b', 'reason' => 'monthly-limit']]],
+            ['accepted' => 0, 'duplicates' => 0, 'refused' => [['id' => 'c', 'reason' => 'monthly-limit'], ['id' => 'd', 'reason' => 'level']]],
+            ['accepted' => 1, 'duplicates' => 0, 'refused' => []],
+        ];
+        Http::fake(['logs.example.test/*' => function () use (&$answers) {
+            return Http::response(array_shift($answers), 202);
+        }]);
+        $channel = Log::channel('mybeast');
+        Log::spy();
+
+        $channel->info('one');
+        $channel->info('two');
+        Logs::ship();
+        $channel->info('three');
+        $channel->info('four');
+        Logs::ship();
+
+        // Dropped, not kept: the service would refuse them again until the 1st. Said once, not once a line; a line
+        // refused for a reason of its own still has its warning.
+        $this->assertSame([], $this->spooled());
+        Log::shouldHaveReceived('warning')->with("MyBeast logs: the project has used up this month's lines; the service drops the rest until the 1st (UTC).", ['dropped' => 2])->once();
+        Log::shouldHaveReceived('warning')->with('MyBeast logs: the service refused a line', ['id' => 'd', 'reason' => 'level'])->once();
+        Log::shouldNotHaveReceived('warning', ['MyBeast logs: the service refused a line', ['id' => 'a', 'reason' => 'monthly-limit']]);
+
+        $channel->info('five');
+        Logs::ship();
+        Log::shouldHaveReceived('info')->with('MyBeast logs: the service takes lines again.')->once();
+        $this->assertArrayNotHasKey('monthly_limit', app(Spool::class)->state());
+    }
+
     public function test_a_full_spool_keeps_no_more_and_says_so_when_there_is_room(): void
     {
         config(['mybeast-logs.spool_max_mb' => 1]);

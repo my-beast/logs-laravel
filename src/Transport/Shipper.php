@@ -16,7 +16,8 @@ use Throwable;
  * failing (then the scheduler alone keeps trying, so no request ever waits on a service that is away).
  *
  * What the service will never take is not retried for ever: lines it refuses one by one are dropped with a warning;
- * a body it refuses whole (422) is set aside in failed/. A batch that is too big (413) goes again in halves.
+ * a body it refuses whole (422) is set aside in failed/. A batch that is too big (413) goes again in halves. Lines
+ * refused because the project's month is used up are dropped too, and said once a month (monthLimit()).
  */
 final readonly class Shipper
 {
@@ -109,7 +110,7 @@ final readonly class Shipper
                     break;
                 }
 
-                foreach ($answer['refused'] as $line) {
+                foreach ($this->monthLimit($answer) as $line) {
                     Log::warning('MyBeast logs: the service refused a line', $line);
                 }
 
@@ -142,6 +143,35 @@ final readonly class Shipper
 
         $state['last_error'] = $error;
         $this->spool->saveState($state);
+    }
+
+    /**
+     * Past the project's monthly limit (its package's) the service refuses the rest of the month's lines as
+     * `monthly-limit`. They are dropped like any refused line - sent again they would be refused again until the 1st,
+     * UTC - but said once a month, and once when the service takes lines again, not once each: that would be a
+     * warning for every line the app writes.
+     *
+     * @param  array{accepted: int, duplicates: int, refused: list<array<string, mixed>>}  $answer
+     * @return list<array<string, mixed>> the lines refused for a reason of their own
+     */
+    private function monthLimit(array $answer): array
+    {
+        $others = array_values(array_filter($answer['refused'], fn (array $line): bool => ($line['reason'] ?? null) !== 'monthly-limit'));
+        $over = count($answer['refused']) - count($others);
+        $state = $this->spool->state();
+        $noted = $state['monthly_limit'] ?? null;
+
+        if ($over > 0 && $noted !== gmdate('Y-m')) {
+            $state['monthly_limit'] = gmdate('Y-m');
+            $this->spool->saveState($state);
+            Log::warning("MyBeast logs: the project has used up this month's lines; the service drops the rest until the 1st (UTC).", ['dropped' => $over]);
+        } elseif ($over === 0 && $answer['accepted'] + $answer['duplicates'] > 0 && $noted !== null) {
+            unset($state['monthly_limit']);
+            $this->spool->saveState($state);
+            Log::info('MyBeast logs: the service takes lines again.');
+        }
+
+        return $others;
     }
 
     /** Over the cap new lines are not kept; back under it, a line says from when to when. */

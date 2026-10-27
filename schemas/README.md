@@ -16,7 +16,7 @@ and `Content-Encoding: gzip` when the body is gzip (the SDK always gzips).
 
 | Answer | Means | The SDK |
 |---|---|---|
-| 202 `{"accepted": n, "duplicates": n, "refused": [{"id", "reason"}]}` | Stored; `duplicates` had been stored before (a batch sent again); `refused` lines never fit (too old, a level that is not one) and are not sent again | removes the batch from its spool, warns about refused lines |
+| 202 `{"accepted": n, "duplicates": n, "refused": [{"id", "reason"}]}` | Stored; `duplicates` had been stored before (a batch sent again); `refused` lines never fit (too old, a level that is not one; `monthly-limit`: past the project's lines this month, its package's, until the 1st UTC) and are not sent again | removes the batch from its spool, warns about refused lines - about `monthly-limit` once a month |
 | 401 | No secret, or one that does not hold (revoked, wrong) | keeps the lines, warns once, tries again |
 | 413 | Too many lines or bytes at once | sends the same lines in smaller batches |
 | 422 | The body is not a batch (not gzip, not JSON) | moves the batch aside (`failed/` in its spool), so it never blocks the rest |
