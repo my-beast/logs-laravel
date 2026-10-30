@@ -1,21 +1,30 @@
 {
     "name": "mybeast/logs-laravel",
-    "description": "Laravel SDK for services.my-beast.com/logs: a log channel that sends your app's lines, scrubbed, without slowing a request or losing a line.",
+    "description": "Laravel SDK for MyBeast Logs (services.my-beast.com/logs): a log channel that sends your app's lines, scrubbed, without slowing a request or losing a line.",
     "type": "library",
-    "license": "proprietary",
+    "license": "MIT",
+    "keywords": ["mybeast", "laravel", "logs", "logging", "monolog"],
+    "homepage": "https://my-beast.com",
+    "support": {
+        "issues": "https://github.com/my-beast/logs-laravel/issues",
+        "source": "https://github.com/my-beast/logs-laravel"
+    },
+    "authors": [
+        { "name": "MyBeast", "homepage": "https://my-beast.com" }
+    ],
     "require": {
         "php": "^8.2",
-        "illuminate/console": "^11.0 || ^12.0 || ^13.0",
-        "illuminate/http": "^11.0 || ^12.0 || ^13.0",
-        "illuminate/log": "^11.0 || ^12.0 || ^13.0",
-        "illuminate/support": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/console": "^12.0 || ^13.0",
+        "illuminate/http": "^12.0 || ^13.0",
+        "illuminate/log": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0",
         "monolog/monolog": "^3.0",
         "symfony/uid": "^7.0 || ^8.0"
     },
     "require-dev": {
         "justinrainbow/json-schema": "^6.0",
         "laravel/pint": "^1.18",
-        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+        "orchestra/testbench": "^10.0 || ^11.0",
         "phpunit/phpunit": "^11.0 || ^12.0"
     },
     "autoload": {

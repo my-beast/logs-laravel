@@ -2,7 +2,7 @@
 
 The Laravel SDK for [MyBeast logs](https://services.my-beast.com/logs): a log channel that sends your app's lines to the
 service - scrubbed before they leave, without slowing a request, and without losing any while the service is away.
-PHP ≥ 8.2, Laravel 11-13.
+PHP ≥ 8.2, Laravel 12 and 13.
 
 ## Plug it in
 
@@ -85,3 +85,9 @@ vendor/bin/pint
 
 `schemas/` is a copy of the Logs module's contract in services (`../../services/schemas/logs`): a test fails when they
 differ.
+
+## Releasing
+
+Add the version to `CHANGELOG.md`, then tag it: `git tag v0.2.0 && git push --tags`. Packagist reads the tag through
+its GitHub hook; there is no version in `composer.json`. The Tests workflow runs on the tag as on every push: PHP 8.2
+to 8.4 against Laravel 12 and 13 (Laravel 11 has unfixed advisories, so Composer will not install it).
