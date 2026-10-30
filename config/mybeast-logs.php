@@ -5,7 +5,8 @@ declare(strict_types=1);
 /*
  * MyBeast logs: this app's log lines, sent to services.my-beast.com/logs. Put `mybeast` in the log stack
  * (LOG_STACK=single,mybeast) - the SDK adds the channel itself unless config/logging.php names one already. The URL
- * and the server secret come from the project's page there (Overview → Connect a host; Settings → Server secrets).
+ * and the server secret come from the project's page there (its setup guide: the Overview until Logs first hears the
+ * app, then "Setup guide"; Settings → Keys).
  *
  * Lines are written to a spool on this server first (a file append, never a network call), and sent from there after
  * the response has gone out and every few seconds by the scheduler. While the service is away they wait.
