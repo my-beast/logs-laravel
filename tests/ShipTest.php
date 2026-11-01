@@ -76,7 +76,7 @@ final class ShipTest extends TestCase
         $this->assertCount(1, glob($this->spool.'/ready/*.ndjson'));
         $this->assertNotNull(Logs::spool()->state()['failing_since'] ?? null);
         // Said once when it started failing, not on every round.
-        Log::shouldHaveReceived('warning')->with('MyBeast logs: lines wait in the spool, the service did not take them', \Mockery::any())->once();
+        Log::shouldHaveReceived('warning')->with('My Beast logs: lines wait in the spool, the service did not take them', \Mockery::any())->once();
 
         // Up again: everything, in the order written, once.
         $up = true;
@@ -91,7 +91,7 @@ final class ShipTest extends TestCase
         $this->assertSame($expected, $stored);
         $this->assertSame([], $this->spooled());
         $this->assertArrayNotHasKey('failing_since', Logs::spool()->state());
-        Log::shouldHaveReceived('info')->with('MyBeast logs: the service takes lines again', \Mockery::any())->once();
+        Log::shouldHaveReceived('info')->with('My Beast logs: the service takes lines again', \Mockery::any())->once();
     }
 
     public function test_a_batch_cut_short_by_a_failure_goes_on_where_it_stopped(): void
@@ -183,7 +183,7 @@ final class ShipTest extends TestCase
 
         $this->artisan('mybeast:logs-ship')->expectsOutputToContain('The service refused 1.')->assertSuccessful();
         $this->assertSame([], $this->spooled());
-        Log::shouldHaveReceived('warning')->with('MyBeast logs: the service refused a line', ['id' => 'x', 'reason' => 'at: older than the 14 days this environment keeps lines'])->once();
+        Log::shouldHaveReceived('warning')->with('My Beast logs: the service refused a line', ['id' => 'x', 'reason' => 'at: older than the 14 days this environment keeps lines'])->once();
     }
 
     public function test_past_the_months_limit_lines_are_dropped_and_said_once_a_month(): void
@@ -209,13 +209,13 @@ final class ShipTest extends TestCase
         // Dropped, not kept: the service would refuse them again until the 1st. Said once, not once a line; a line
         // refused for a reason of its own still has its warning.
         $this->assertSame([], $this->spooled());
-        Log::shouldHaveReceived('warning')->with("MyBeast logs: the project has used up this month's lines; the service drops the rest until the 1st (UTC).", ['dropped' => 2])->once();
-        Log::shouldHaveReceived('warning')->with('MyBeast logs: the service refused a line', ['id' => 'd', 'reason' => 'level'])->once();
-        Log::shouldNotHaveReceived('warning', ['MyBeast logs: the service refused a line', ['id' => 'a', 'reason' => 'monthly-limit']]);
+        Log::shouldHaveReceived('warning')->with("My Beast logs: the project has used up this month's lines; the service drops the rest until the 1st (UTC).", ['dropped' => 2])->once();
+        Log::shouldHaveReceived('warning')->with('My Beast logs: the service refused a line', ['id' => 'd', 'reason' => 'level'])->once();
+        Log::shouldNotHaveReceived('warning', ['My Beast logs: the service refused a line', ['id' => 'a', 'reason' => 'monthly-limit']]);
 
         $channel->info('five');
         Logs::ship();
-        Log::shouldHaveReceived('info')->with('MyBeast logs: the service takes lines again.')->once();
+        Log::shouldHaveReceived('info')->with('My Beast logs: the service takes lines again.')->once();
         $this->assertArrayNotHasKey('monthly_limit', app(Spool::class)->state());
     }
 

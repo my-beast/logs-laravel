@@ -54,7 +54,7 @@ final class ChannelTest extends TestCase
 
     public function test_the_sdks_own_lines_stay_at_home(): void
     {
-        Log::warning('MyBeast logs: lines wait in the spool');
+        Log::warning('My Beast logs: lines wait in the spool');
 
         $this->assertSame([], $this->spooled());
     }
@@ -94,6 +94,6 @@ final class ChannelTest extends TestCase
 
         $this->assertSame([], $this->spooled());
         $this->assertFalse(Logs::enabled());
-        $this->artisan('mybeast:logs-ship')->expectsOutputToContain('MyBeast logs is off')->assertSuccessful();
+        $this->artisan('mybeast:logs-ship')->expectsOutputToContain('My Beast logs is off')->assertSuccessful();
     }
 }

@@ -12,14 +12,14 @@ final class StatusCommand extends Command
 {
     protected $signature = 'mybeast:logs-status';
 
-    protected $description = 'Show whether MyBeast logs is on and what waits in its spool';
+    protected $description = 'Show whether My Beast logs is on and what waits in its spool';
 
     public function handle(Logs $logs): int
     {
         $spool = $logs->spool();
         $state = $spool->state();
 
-        $this->table(['MyBeast logs', ''], [
+        $this->table(['My Beast logs', ''], [
             ['On', $logs->enabled() ? 'yes, to '.config('mybeast-logs.url') : 'no (no URL or server secret, or switched off)'],
             ['Environment', (string) config('mybeast-logs.environment')],
             ['Spool', $spool->directory()],

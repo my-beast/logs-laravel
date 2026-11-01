@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * MyBeast logs: this app's log lines, sent to services.my-beast.com/logs. Put `mybeast` in the log stack
+ * My Beast logs: this app's log lines, sent to services.my-beast.com/logs. Put `mybeast` in the log stack
  * (LOG_STACK=single,mybeast) - the SDK adds the channel itself unless config/logging.php names one already. The URL
  * and the server secret come from the project's page there (its setup guide: the Overview until Logs first hears the
  * app, then "Setup guide"; Settings → Keys).

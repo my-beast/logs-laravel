@@ -101,7 +101,7 @@ final readonly class Shipper
                     if (in_array($e->status, [400, 422], true)) {
                         $this->spool->quarantine($read['lines']);
                         $this->spool->advance($file, $read['offset']);
-                        Log::warning('MyBeast logs: the service refused a batch whole; it is kept in '.$this->spool->directory().'/failed', ['reason' => $e->getMessage()]);
+                        Log::warning('My Beast logs: the service refused a batch whole; it is kept in '.$this->spool->directory().'/failed', ['reason' => $e->getMessage()]);
 
                         continue;
                     }
@@ -111,7 +111,7 @@ final readonly class Shipper
                 }
 
                 foreach ($this->monthLimit($answer) as $line) {
-                    Log::warning('MyBeast logs: the service refused a line', $line);
+                    Log::warning('My Beast logs: the service refused a line', $line);
                 }
 
                 $sent += $answer['accepted'] + $answer['duplicates'];
@@ -132,12 +132,12 @@ final readonly class Shipper
         $state = $this->spool->state();
 
         if ($error !== null && ! isset($state['failing_since'])) {
-            Log::warning('MyBeast logs: lines wait in the spool, the service did not take them', ['reason' => $error]);
+            Log::warning('My Beast logs: lines wait in the spool, the service did not take them', ['reason' => $error]);
             $state['failing_since'] = time();
         }
 
         if ($error === null && isset($state['failing_since'])) {
-            Log::info('MyBeast logs: the service takes lines again', ['waited_seconds' => time() - (int) $state['failing_since'], 'sent' => $sent]);
+            Log::info('My Beast logs: the service takes lines again', ['waited_seconds' => time() - (int) $state['failing_since'], 'sent' => $sent]);
             unset($state['failing_since']);
         }
 
@@ -164,11 +164,11 @@ final readonly class Shipper
         if ($over > 0 && $noted !== gmdate('Y-m')) {
             $state['monthly_limit'] = gmdate('Y-m');
             $this->spool->saveState($state);
-            Log::warning("MyBeast logs: the project has used up this month's lines; the service drops the rest until the 1st (UTC).", ['dropped' => $over]);
+            Log::warning("My Beast logs: the project has used up this month's lines; the service drops the rest until the 1st (UTC).", ['dropped' => $over]);
         } elseif ($over === 0 && $answer['accepted'] + $answer['duplicates'] > 0 && $noted !== null) {
             unset($state['monthly_limit']);
             $this->spool->saveState($state);
-            Log::info('MyBeast logs: the service takes lines again.');
+            Log::info('My Beast logs: the service takes lines again.');
         }
 
         return $others;
@@ -186,7 +186,7 @@ final readonly class Shipper
         try {
             $this->spool->append(($this->notice)(
                 'warning',
-                'MyBeast logs: the spool was full from '.date('Y-m-d H:i:s', $since).' to '.date('Y-m-d H:i:s').' (its cap is reached while the service is away): lines written then were not kept.',
+                'My Beast logs: the spool was full from '.date('Y-m-d H:i:s', $since).' to '.date('Y-m-d H:i:s').' (its cap is reached while the service is away): lines written then were not kept.',
             ));
         } catch (Throwable) {
             // Saying so must not break a round.

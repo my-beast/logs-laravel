@@ -13,7 +13,7 @@ use Throwable;
 /**
  * The `mybeast` channel's handler: a line goes into the spool - a file append, never a network call - and the
  * record bubbles on to the stack's other channels. Nothing here may throw into the app: a line that cannot be kept is
- * counted, not raised. The SDK's own lines ("MyBeast logs: …") go to the host's other channels only.
+ * counted, not raised. The SDK's own lines ("My Beast logs: …") go to the host's other channels only.
  */
 final class SpoolHandler extends AbstractHandler
 {
@@ -29,7 +29,7 @@ final class SpoolHandler extends AbstractHandler
 
     public function handle(LogRecord $record): bool
     {
-        if (! $this->isHandling($record) || str_starts_with($record->message, 'MyBeast logs:')) {
+        if (! $this->isHandling($record) || str_starts_with($record->message, 'My Beast logs:')) {
             return false;
         }
 

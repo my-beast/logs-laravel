@@ -33,7 +33,7 @@ use MyBeast\Logs\Laravel\Transport\Shipper;
 use Throwable;
 
 /**
- * Plugs MyBeast logs in without the host writing code: the `mybeast` log channel (add it to the stack), a request id
+ * Plugs My Beast logs in without the host writing code: the `mybeast` log channel (add it to the stack), a request id
  * on every request and the jobs it queues, and the spool sent after each response and job and every few seconds by
  * the scheduler. Off (no URL or secret, or MYBEAST_LOGS_ENABLED=false): the channel takes lines and keeps none.
  */

@@ -17,7 +17,7 @@ final class ShipCommand extends Command
     public function handle(Logs $logs): int
     {
         if (! $logs->enabled()) {
-            $this->line('MyBeast logs is off (no URL or server secret): nothing to send.');
+            $this->line('My Beast logs is off (no URL or server secret): nothing to send.');
 
             return self::SUCCESS;
         }

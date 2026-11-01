@@ -1,6 +1,6 @@
 # mybeast/logs-laravel
 
-The Laravel SDK for [MyBeast logs](https://services.my-beast.com/logs): a log channel that sends your app's lines to the
+The Laravel SDK for [My Beast logs](https://services.my-beast.com/logs): a log channel that sends your app's lines to the
 service - scrubbed before they leave, without slowing a request, and without losing any while the service is away.
 PHP ≥ 8.2, Laravel 12 and 13.
 

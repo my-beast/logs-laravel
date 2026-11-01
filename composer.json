@@ -1,6 +1,6 @@
 {
     "name": "mybeast/logs-laravel",
-    "description": "Laravel SDK for MyBeast Logs (services.my-beast.com/logs): a log channel that sends your app's lines, scrubbed, without slowing a request or losing a line.",
+    "description": "Laravel SDK for My Beast Logs (services.my-beast.com/logs): a log channel that sends your app's lines, scrubbed, without slowing a request or losing a line.",
     "type": "library",
     "license": "MIT",
     "keywords": ["mybeast", "laravel", "logs", "logging", "monolog"],
@@ -10,7 +10,7 @@
         "source": "https://github.com/my-beast/logs-laravel"
     },
     "authors": [
-        { "name": "MyBeast", "homepage": "https://my-beast.com" }
+        { "name": "My Beast", "homepage": "https://my-beast.com" }
     ],
     "require": {
         "php": "^8.2",
