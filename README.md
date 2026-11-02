@@ -13,9 +13,18 @@ composer require mybeast/logs-laravel
 ```dotenv
 LOG_STACK=single,mybeast
 MYBEAST_LOGS_URL=https://services.my-beast.com/logs
-MYBEAST_LOGS_SECRET=sk_….…          # the project's Settings → Server secrets (shown once)
-MYBEAST_LOGS_ENVIRONMENT=production # defaults to APP_ENV
+MYBEAST_LOGS_SECRET=sk_….…
+MYBEAST_LOGS_ENVIRONMENT=production # one of the project's environments: development, staging, production
 ```
+
+**Where the values come from.** id makes the server secret with the project, and Secrets keeps the URL and secret
+lines, filled in, in each of the project's environments: Secrets → the environment → Download .env is the whole block,
+with the other products' lines. A secret made by hand is on the project's **Settings → Keys**
+(`services.my-beast.com/<workspace>/<project>/settings/keys`), shown once, when made.
+
+**The environment** is where this copy of the app runs, so each copy sets its own and Secrets doesn't hold it. Left
+out, it is `APP_ENV`: `local` on a developer's machine, a name the project doesn't list, so those lines show apart
+from its environments. Set `development` there.
 
 That is all: the SDK adds the `mybeast` channel (unless `config/logging.php` names one), and the scheduler sends
 what waits every 10 seconds (`schedule:run` from cron, or `schedule:work`). In your test suite, set
@@ -63,7 +72,12 @@ on the response), on the jobs it queues (through Laravel's hidden Context), and 
 was running, without values: `GET /invoices/{invoice}/send`, `job App\Jobs\SendInvoice`, `artisan invoices:remind`.
 `Logs::requestId()` hands the id to whatever else wants it (the errors SDK will).
 
-## The demo host
+## Working on this SDK
+
+For whoever changes the SDK, in its repository: the Composer download leaves `workbench/` and the tests out, and the
+schema check needs My Beast's own checkout beside it.
+
+### The demo host
 
 `workbench/` is a tiny Laravel app with this SDK (Orchestra Testbench): a checkout that logs - personal data
 included - and queues a job.
@@ -75,7 +89,7 @@ vendor/bin/testbench mybeast:logs-status      # what waits in the demo's spool
 vendor/bin/testbench mybeast:logs-ship        # send it now
 ```
 
-## Develop
+### Develop
 
 ```bash
 composer install
@@ -86,7 +100,7 @@ vendor/bin/pint
 `schemas/` is a copy of the Logs module's contract in services (`../../services/schemas/logs`): a test fails when they
 differ.
 
-## Releasing
+### Releasing
 
 Add the version to `CHANGELOG.md`, then tag it: `git tag v0.2.0 && git push --tags`. Packagist reads the tag through
 its GitHub hook; there is no version in `composer.json`. The Tests workflow runs on the tag as on every push: PHP 8.2
